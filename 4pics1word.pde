@@ -1,3 +1,4 @@
+//this code is to be run on processing
 import android.view.inputmethod.InputMethodManager;
 import android.content.Context;
 int rect1x, rect1y, rect2x, rect2y,rect3x,rect3y,rect4x,rect4y;
@@ -11,15 +12,15 @@ boolean rect5Over = false;
 boolean rect6Over = false;
 boolean rect7Over = false;
 boolean dis_img2=false,dis_img3=false,dis_img4=false;
-String[] answer = {"NATURE","INSECT","ICE","GESTURE","MALODOUROUS","GALAXY"}; //these are to be changed
-String[] user_answer={"______","______","___","_______","___________","______"}; //these are to be changed
-String[] user_answer_copy={"______","______","___","_______","___________","______"}; //these are to be changed
+String[] answer = {"NATURE","INSECT","ICE","GESTURE","MALODOUROUS","GALAXY"}; //answers of the game
+String[] user_answer={"______","______","___","_______","___________","______"}; //user answer
+String[] user_answer_copy={"______","______","___","_______","___________","______"}; 
 String[] ques_letters={"","","","","",""}; ////these are to be changed
 String[] ques_letters_copy={"","","","","",""};//these are to be changed
 int level = 1,flag =0;
 int answer_length=answer[level-1].length();
 int counter=0;
-int max_level=6; //these are to be changed
+int max_level=6; //maximum number of level the game has
 int[] counter_box1=new int[max_level];//these are to be changed
 int[] counter_box2=new int[max_level];//these are to be changed
 PImage img1,img2,img3,img4,new1,new2,new3,new4,box1,box2,box3,box4;
@@ -27,7 +28,7 @@ String im1="image1.jpg",im2="image2.jpg",im3="image3.jpg",im4="image4.jpg";
 char[] x = user_answer_copy[level-1].toCharArray();
 
 
-
+//getting a new image each time a level is completed
 void another(){
   if (level > max_level)
    { 
@@ -47,7 +48,7 @@ void another(){
 }
 
 void setup(){
-  
+  //initial setup of the game
   background(0);
   size(displayWidth,displayHeight);
   rect1x = width - width/5;
@@ -78,7 +79,7 @@ void setup(){
   box3=loadImage("keyboard.jpg");
   box4=loadImage("check.jpg");
 }
-
+//check functionality to see whether the user answer is correct or not
 int check(String answer, String user_answer_fun)
 {
    if (user_answer_fun.equals(answer))
@@ -103,25 +104,24 @@ int check(String answer, String user_answer_fun)
        }
 }
 
-
+//showing the keyboard on the app
 void showVirtualKeyboard() 
 {
   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
   imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
  
 }
+//hiding the keyboard
  void hideVirtualKeyboard() 
 {
   InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
   imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 }
-
+//another setup required
 void initial_setup(){
   //textSize(40);
   String text1="LeveL " + str(level);
   if (level <= max_level ){
-    
-  
   textSize(40);
   text(text1,width/2-width/10,height/20);
   image(box1,rect1x, rect1y);
@@ -138,7 +138,7 @@ void initial_setup(){
 
 void draw(){
   frameRate(60);
-  update(mouseX,mouseY);
+  update(mouseX,mouseY); //checks the position of the mouse or the hand in this case!
   fill(255);
   
   if(level<=max_level)
@@ -196,7 +196,7 @@ void update(int x, int y) {
   }
 }
 
-void mousePressed() {
+void mousePressed() { //checking if the user has tapped on a particular box
   if (rect1Over) {
     counter_box1[level-1]++;
     hint1(answer[level-1]);
@@ -240,14 +240,14 @@ boolean overRect(int x, int y, int width, int height)  {
 
 
 
-void hint1(String answer){
+void hint1(String answer){ //getting a correct character 
   x[counter_box1[level-1]-1]=answer.charAt(counter_box1[level-1]-1);
   counter_box1[level-1]=counter_box1[level-1]%answer.length();
   user_answer[level-1]=new String(x);
  
 }
 
-void hint2(String answer, String ques_letters_copy)
+void hint2(String answer, String ques_letters_copy) //removing extra characters
 {
   char[] y = ques_letters_copy.toCharArray();
   y=reverse(y);
@@ -262,7 +262,7 @@ void hint2(String answer, String ques_letters_copy)
   ques_letters[level-1] = shuffleArray(ques_letters[level-1],ques_letters[level-1].length());
 }
 
-String get_letters(String answer){
+String get_letters(String answer){ //getting the question letters
   if(level > max_level)
     noLoop();
   int max_length = 14;
@@ -297,7 +297,7 @@ String shuffleArray(String char_array,int strlength) //Fisher Yates shuffle.
   return char_array;
 }
 
-void keyPressed()
+void keyPressed() //checking which key is pressed.
 {
   if(key>='a' && key<='z')
   { 
